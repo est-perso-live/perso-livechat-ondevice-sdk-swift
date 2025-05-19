@@ -1,0 +1,24 @@
+######
+# MacOS
+.DS_Store
+
+
+######
+# Xcode
+
+## User settings
+xcuserdata/
+
+## App packaging
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+## XCFramework
+archives/
+xcframeworks/
+
+######
+# Swift Package Manager
+.build/
+.swiftpm
