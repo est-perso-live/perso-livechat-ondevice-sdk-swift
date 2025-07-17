@@ -18,8 +18,8 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "PersoLiveChatOnDeviceSDK",
-            url: "https://github.com/est-perso-live/perso-livechat-ondevice-sdk-swift/releases/download/0.2.0/PersoLiveChatOnDeviceSDK.xcframework.zip",
-            checksum: "31426d3ae81829cb8aa804646d2ec9cf1c2684352c25c0494059584e0d260c11"
+            url: "https://github.com/est-perso-live/perso-livechat-ondevice-sdk-swift/releases/download/0.3.0/PersoLiveChatOnDeviceSDK.xcframework.zip",
+            checksum: "098926691664101c2ce0540dfd10c0a45c0edb75d3a53127496afb462bd7be79"
         )
     ]
 )

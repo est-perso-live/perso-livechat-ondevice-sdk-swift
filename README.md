@@ -14,8 +14,6 @@
 <p align="center"> 📕 <a href="https://github.com/est-perso-live/perso-livechat-ondevice-sdk-swift/releases/latest">Documentation</a> &nbsp | &nbsp 📱 <a href="https://github.com/est-perso-live/perso-livechat-ondevice-sample-swift">Sample Project</a>
 </div>
 
-
-<br>
 <br>
 
 The [PERSO.ai](https://perso.ai/) LiveChat SDK is the next-generation universal interface for conversational AI.
@@ -147,12 +145,13 @@ PersoLiveChat.cleanModelResources()
 <br/>
 
 ### Step 4. Load Inference Model
-Before using any `PersoLiveChat` features, you must load and initialize the models required for inference.  
-This process requires model resources, which must be downloaded beforehand to ensure proper initialization.  
+Before using any `PersoLiveChat` features, you must load and initialize the models required for inference with a specific model style.
+This process requires model resources, which must be downloaded beforehand to ensure proper initialization.
+
 If the initialization method is not called, errors may occur during prediction.
 
 ```swift
-try await PersoLiveChat.load()
+try await PersoLiveChat.load(ModelStyle)
 ```
 
 <br/>
@@ -280,7 +279,7 @@ do {
 } catch {
     // handle session create error
 }
-````
+```
 
 <br/>
 
@@ -316,7 +315,9 @@ session = try await PersoLiveChat.createSession(
 <br/>
 
 ### Step 8. Displaying the AI Human on Screen
-You can control how the video content is displayed on the screen by configuring the `videoContentMode` property of `PersoVideoView`. The available modes are `aspectFill` and `aspectFit`.
+You can control how the video content is displayed on the screen by configuring the `videoContentMode` and `offsetY` properties of `PersoVideoView`.
+
+The `videoContentMode` property allows you to choose between `aspectFill` and `aspectFit` modes, while the `offsetY` property enables vertical positioning adjustment of the AI Human within the view.
 
 <br/>
 
@@ -325,6 +326,9 @@ let persoVideoView = PersoVideoView(session: session)
 
 // Set the video content mode (default is aspectFill)
 persoVideoView.videoContentMode = .aspectFit
+
+// Adjust vertical offset position (default is 0)
+persoVideoView.offsetY = 10.0
 
 persoVideoView.start()
 ```
@@ -392,7 +396,7 @@ To use `PersoVideoView`, the `start()` method must be called, but there's an **i
 This method must be called while the app is in the foreground. Attempting to start while the app is in the background will result in a failure to initialize the audio session properly and can cause unexpected errors. If this method is called while the app is in the background, an error will be emitted asynchronously through the delegate method `PersoLiveChatDelegate.didFailWithError(_:)`, instead of immediately throwing an error.
 
 #### PersoVideoViewDelegate
-The `PersoVideoViewDelegate` protocol defines a set of methods that can be implemented by a delegate to respond to events that occur in a `PersoVideoView`. By implementing this protocol, you can capture and handle evnets that arise during the operation of the `PersoVideoView` in your application.
+The `PersoVideoViewDelegate` protocol defines a set of methods that can be implemented by a delegate to respond to events that occur in a `PersoVideoView`. By implementing this protocol, you can capture and handle events that arise during the operation of the `PersoVideoView` in your application.
 
 Specifically, the `persoVideoView(didChangeState state: PersoVideoView.PersoVideoViewState)` method detects changes in the state of the `PersoVideoView`, indicating whether it is in the `waiting` state (waiting for a question) or in the `answer` state (responding). This can be used to handle the UI or implement necessary business logic accordingly.
 
@@ -479,7 +483,7 @@ STT, TTS, and LLM can be customized and implemented according to your needs. The
 
 ### Using Features - TTS Customization
 
-#### Step1. Implementing Class that conforms to the `SpeechSynthesizable` Protocol.
+#### Step 1. Implementing Class that conforms to the `SpeechSynthesizable` Protocol.
 A custom class that conforms to the `SpeechSynthesizable` protocol needs to be implemented. 
 
 The following information pertains to the `SpeechSynthesizable` protocol interface.
@@ -498,7 +502,7 @@ public protocol SpeechSynthesizable {
 
 <br/>
 
-#### Step2. Pass to the parameters of the `PersoLiveChatSession` initializer.
+#### Step 2. Pass to the parameters of the `PersoLiveChatSession` initializer.
 If you look at the createSession or connectSession initializer information, you can see that the provider can be injected.  
 
 ```swift
