@@ -244,8 +244,8 @@ do {
             .speechToText(type: STTType),
             .largeLanguageModel(
                 llmType: LLMType,
-                promptType: Prompt?,
-                documentType: Document?
+                promptID: String,
+                documentID: String?
             ),
             .textToSpeech(type: TTSType)
         ],
@@ -398,20 +398,26 @@ This method must be called while the app is in the foreground. Attempting to sta
 #### PersoVideoViewDelegate
 The `PersoVideoViewDelegate` protocol defines a set of methods that can be implemented by a delegate to respond to events that occur in a `PersoVideoView`. By implementing this protocol, you can capture and handle events that arise during the operation of the `PersoVideoView` in your application.
 
-Specifically, the `persoVideoView(didChangeState state: PersoVideoView.PersoVideoViewState)` method detects changes in the state of the `PersoVideoView`, indicating whether it is in the `waiting` state (waiting for a question) or in the `answer` state (responding). This can be used to handle the UI or implement necessary business logic accordingly.
+Specifically, the `persoVideoView(didChangeState state: PersoVideoView.VideoState)` method detects changes in the state of the `PersoVideoView`, indicating whether it is in the `waiting` state (waiting for a question) or in the `processing` state (responding). This can be used to handle the UI or implement necessary business logic accordingly.
 
 ```swift
-enum PersoVideoViewState {
+public enum VideoState {
     // The view is idle and waiting for new input or a new action.
-    case waiting
+    case waiting(_ phase: Phase)
         
     // The view is actively processing speech synthesis or video-related tasks.
     case processing
+
+    public enum Phase {
+        case idle
+        case transition
+        case standby
+    }
 }
     
 public protocol PersoVideoViewDelegate: AnyObject {
     func persoVideoView(didFailWithError error: PersoLiveChatError)
-    func persoVideoView(didChangeState state: PersoVideoView.PersoVideoViewState)
+    func persoVideoView(didChangeState state: PersoVideoView.VideoState)
 }
 
 // usage
@@ -506,7 +512,7 @@ public protocol SpeechSynthesizable {
 If you look at the createSession or connectSession initializer information, you can see that the provider can be injected.  
 
 ```swift
-func createSession(
+public func createSession(
     for config: Set<SessionCapability> = [],
     modelStyle: ModelStyle,
     provider: (any SpeechSynthesizable)? = nil,
@@ -515,7 +521,7 @@ func createSession(
     ...
 }
 
-func connectSession(
+public func connectSession(
     sessionID: String,
     modelStyle: ModelStyle,
     provider: (any SpeechSynthesizable)? = nil,
