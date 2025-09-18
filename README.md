@@ -1,12 +1,12 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset=".github/banner_dark.png" />
   <source media="(prefers-color-scheme: light)" srcset=".github/banner_light.png" />
-  <img style="width:100%;" alt="PERSO.ai Banner" src=".github/banner_light.png" />
+  <img style="width:100%;" alt="Perso AI Banner" src=".github/banner_light.png" />
 </picture>
 
 <div align="center">
 
-# [PERSO.ai](https://perso.ai/) LiveChat On-Device SDK for Swift
+# [Perso AI](https://perso.ai/) LiveChat On-Device SDK for Swift
 
 [![Swift](https://img.shields.io/badge/Swift-6.0+-orange?style=flat-square)](https://img.shields.io/badge/Swift-6.0+-Orange?style=flat-square)
 [![Platforms](https://img.shields.io/badge/Platforms-macOS-Green?style=flat-square)](https://img.shields.io/badge/Platforms-macOS-Green?style=flat-square)
@@ -16,14 +16,14 @@
 
 <br>
 
-The [PERSO.ai](https://perso.ai/) LiveChat SDK is the next-generation universal interface for conversational AI.
+The **Perso AI LiveChat SDK** is the next-generation universal interface for conversational AI.
 It supports real-time communication and personalized interactions with over 100 languages, featuring natural speech-to-text conversion and lifelike AI Human expressions.
 
 <br/>
 
 ## Prerequisites
 
-The PERSO.ai LiveChat SDK supports :
+The Perso AI LiveChat SDK supports :
 * macOS 15.0 or later
 * Xcode 16.0 or later
 * Swift 6.0 or later
@@ -33,7 +33,7 @@ The PERSO.ai LiveChat SDK supports :
 ## Installation
 ### Swift Package Manager
 
-To install the PERSO.ai LiveChat SDK, follow these steps:
+To install the Perso AI LiveChat SDK, follow these steps:
 
 1. Open your Xcode project.
 2. Navigate to `File` > `Add Package Dependencies...`.
@@ -79,7 +79,7 @@ PersoLiveChat.apiKey = "YOUR_API_KEY"
 ```
 
 > [!CAUTION]  
-> **The PERSO.ai LiveChat SDK for Swift is not recommended to embed an API Key directly in your app.**
+> **The Perso AI LiveChat SDK for Swift is not recommended to embed an API Key directly in your app.**
 > There's a high risk that malicious actors could discover and misuse your API Key.
 > We strongly recommend using a SessionID issued by your backend whenever possible, rather than exposing your API Key.
 
@@ -553,4 +553,4 @@ PersoLiveChat.computeUnits = .cpu
 <br/>
 
 ## License
-PERSO.ai LiveChat SDK for Swift is commercial software. [Contact our sales team](https://perso.ai/contact).
+Perso AI LiveChat SDK for Swift is commercial software. [Contact our sales team](https://perso.ai/contact).
