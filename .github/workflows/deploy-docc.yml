@@ -1,0 +1,81 @@
+name: Deploy DocC to GitHub Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to deploy (e.g., 0.4.0)'
+        required: true
+        type: string
+  release:
+    types: [published]
+
+env:
+  SCHEME_NAME: "PersoLiveChatOnDeviceSDK"
+  DOCC_OUTPUT_DIR: "docs"
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: macos-15
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository  # 저장소 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Get version  # 배포할 버전 가져오기
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "release" ]; then
+            echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          else
+            echo "VERSION=${{ inputs.version }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Download DocC Archive from Release  # Release에서 DocC 아카이브 다운로드
+        run: |
+          curl -L -o ${{ env.SCHEME_NAME }}.doccarchive.zip \
+            "https://github.com/est-perso-live/perso-livechat-ondevice-sdk-swift/releases/download/${{ steps.version.outputs.VERSION }}/${{ env.SCHEME_NAME }}.doccarchive.zip"
+
+      - name: Validate downloaded archive  # 다운로드 파일 검증
+        run: |
+          if [ ! -f "${{ env.SCHEME_NAME }}.doccarchive.zip" ]; then
+            echo "❌ DocC archive not found"
+            exit 1
+          fi
+          echo "✅ Found DocC archive: ${{ env.SCHEME_NAME }}.doccarchive.zip"
+
+      - name: Extract DocC Archive  # DocC 아카이브 압축 해제
+        run: |
+          unzip ${{ env.SCHEME_NAME }}.doccarchive.zip
+
+      - name: Transform for static hosting  # Static hosting용으로 변환
+        run: |
+          $(xcrun --find docc) process-archive \
+            transform-for-static-hosting ${{ env.SCHEME_NAME }}.doccarchive \
+            --hosting-base-path perso-livechat-ondevice-sdk-swift \
+            --output-path ${{ env.DOCC_OUTPUT_DIR }}
+
+      - name: Create redirect index.html  # 메인 문서 페이지로 리다이렉트하는 index.html 생성
+        run: |
+          SCHEME_NAME_LOWER=$(echo "${{ env.SCHEME_NAME }}" | tr '[:upper:]' '[:lower:]')
+          echo "<script>window.location.href += \"/documentation/${SCHEME_NAME_LOWER}\"</script>" > ${{ env.DOCC_OUTPUT_DIR }}/index.html
+
+      - name: Upload DocC artifact  # DocC 아티팩트 업로드
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ env.DOCC_OUTPUT_DIR }}
+
+      - name: Deploy to GitHub Pages  # GitHub Pages에 배포
+        id: deployment
+        uses: actions/deploy-pages@v4
