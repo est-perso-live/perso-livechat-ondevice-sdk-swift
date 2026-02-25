@@ -16,6 +16,16 @@
 
 <br>
 
+> [!WARNING]
+> Perso AI is introducing a new SDK — **Perso Interactive On-Device SDK**, now officially available under a new GitHub organization and repository.
+>
+> This repository has been archived and will no longer receive updates. Please migrate to the new SDK for the latest features, improvements, and support.
+>
+> * **New Repository:** https://github.com/perso-ai/perso-interactive-ondevice-sdk-swift  
+> * **Documentation:** https://perso-ai.github.io/perso-interactive-ondevice-sdk-swift/
+
+<br/>
+
 The **Perso AI LiveChat SDK** is the next-generation universal interface for conversational AI.
 It supports real-time communication and personalized interactions with over 100 languages, featuring natural speech-to-text conversion and lifelike AI Human expressions.
 
